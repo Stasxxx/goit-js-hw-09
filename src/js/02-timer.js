@@ -4,7 +4,6 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 let selectedDate = '';
 
-
 const refs = {
   input: document.querySelector('input#datetime-picker'),
   startBtn: document.querySelector('button[data-start]'),
@@ -28,10 +27,8 @@ const options = {
     } else {
       refs.startBtn.removeAttribute('disabled');   
       selectedDate = selectedDates[0];
-    }    
-    // console.log(selectedDates[0]);
+    }   
   },
-  
 };
 
 
@@ -48,7 +45,6 @@ class Timer {
     if (this.isActive) {
       return;
     }
-
     this.isActive = true;
     
     this.timerId =setInterval(() => {
