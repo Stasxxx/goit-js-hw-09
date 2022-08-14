@@ -1,13 +1,17 @@
+
 const startSwitchColor = document.querySelector('button[data-start]');
 const stopSwitchColor = document.querySelector('button[data-stop]');
 const body = document.querySelector('body')
 let timerId = null;
-// console.log(stopSwitchColor);
+
+
+stopSwitchColor.setAttribute('disabled', '');
 
 startSwitchColor.addEventListener("click", () => {
   timerId = setInterval(() => {
     body.style.backgroundColor = `${getRandomHexColor()}`;
-    startSwitchColor.setAttribute('disabled','');
+    startSwitchColor.setAttribute('disabled', '');
+    stopSwitchColor.removeAttribute('disabled')
   }, 1000);
 });
 
@@ -15,6 +19,7 @@ startSwitchColor.addEventListener("click", () => {
 stopSwitchColor.addEventListener("click", () => {
   clearInterval(timerId);
   startSwitchColor.removeAttribute('disabled');
+  stopSwitchColor.setAttribute('disabled', '');
 });
 
 
