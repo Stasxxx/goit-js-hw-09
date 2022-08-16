@@ -1,59 +1,65 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-const form = document.querySelector('.form');
-const delay = document.querySelector('input[name="delay"]');
-const step = document.querySelector('input[name="step"]');
-const amount = document.querySelector('input[name="amount"]');
-const button = document.querySelector('button[type="submit"]');
 
-let position = 0;
-let STEP;
-let isActive = false;
-// console.log(STEP)
+// const delayInput = document.querySelector('input[name="delay"]');
+// const stepInput = document.querySelector('input[name="step"]');
+// const amountInput = document.querySelector('input[name="amount"]');
+const formInput = document.querySelector('.form');
+const buttonInput = document.querySelector('button[type="submit"]');
 
-form.addEventListener('submit', onFormSubmit);
-button.addEventListener('input', onFormSubmit)
+
+
+
+formInput.addEventListener('submit', onFormSubmit);
+// buttonInput.addEventListener('input', onFormSubmit)
 
 function onFormSubmit(evt) {
   evt.preventDefault()
-  const { elements: { delay, step, amount } } = evt.currentTarget;
- 
-  if (position === amount) {
-    return
-  }
-  position += 1;
-  STEP = step.value;
+  // formData[evt.currentTtarget.elements.name] = evt.currentTtarget.elements.value;
+  // const { elements: { delay, step, amount } } = evt.currentTarget;
+  const elements = evt.currentTarget.elements;
+  const amount = elements.amount.value;
+  const step = Number(elements.step.value);
+  let delay = Number(elements.delay.value);
   
-  console.log(amount.value);
-  console.log(delay.value);
-  console.log(step.value);
-  createPromise(position, delay.value)
+
+  if (amount < 0 || step < 0 || delay < 0) {
+    Notify.failure(`Enter a positive number`,
+      { position: "center-top" });
+    return
+  };
+
+  for (let position = 1; position <= amount; position += 1) {
+    delay += step;
+    // let { position: position, delay: delay } = object;
+
+  createPromise(position, delay)
+    .then(({ position, delay }) => {
+    Notify.success(` Fulfilled promise ${position} in ${delay}ms`);
+  })
+    .catch(({ position, delay }) => {
+    Notify.failure(` Rejected promise ${position} in ${delay}ms`);
+  })
+  .finally(evt.currentTarget.reset());
+    
+  }
 }
 
-function createPromise(position, delay) {
-  if (isActive) {
-      return;
-  }
-  isActive = true;
-  return new Promise((fulfill, rejec) => {
+function createPromise(object) {
+   let { position: position, delay: delay } = object;
+  return new Promise((resolve, reject) => {
+   
     const shouldResolve = Math.random() > 0.3;
   setTimeout(() => {
     if (shouldResolve) {
-      
-     fulfill(`✅ Fulfilled promise ${position} in ${delay}ms`)
+      resolve(` Fulfilled promise ${position} in ${delay}ms`);
     } else {
-      rejec(`❌ Rejected promise ${position} in ${delay}ms`);
+      reject(` Rejected promise ${position} in ${delay}ms`);
     }
   }, delay);
+     
   })
   
-  
+  return
 };
 
-Promise(position, STEP)
-  .then(({ position, delay }) => {
-    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  })
-  .catch(({ position, delay }) => {
-    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-  });
