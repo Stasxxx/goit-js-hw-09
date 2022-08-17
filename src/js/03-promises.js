@@ -4,9 +4,6 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 const formInput = document.querySelector('.form');
 const buttonInput = document.querySelector('button[type="submit"]');
 
-
-
-
 formInput.addEventListener('submit', onFormSubmit);
 
 
@@ -27,7 +24,7 @@ function onFormSubmit(evt) {
     delay += step;
 
     createPromise(position, delay)
-    .then(( position, delay ) => {
+      .then(({ position, delay }) => {
     Notify.success(` Fulfilled promise ${position} in ${delay}ms`);
   })
     .catch(({ position, delay }) => {
@@ -40,19 +37,14 @@ function onFormSubmit(evt) {
 function createPromise( position, delay) {
    
   return new Promise((resolve, reject) => {
-    const object = {
-      position,
-      delay,
-    };
     const shouldResolve = Math.random() > 0.3;
   setTimeout(() => {
     if (shouldResolve) {
-      resolve(` Fulfilled promise ${position} in ${delay}ms`);
+      resolve({position, delay});
     } else {
-      reject(` Rejected promise ${position} in ${delay}ms`);
+      reject({position, delay});
     }
-  }, delay);
-     
+  }, delay);   
   })
 };
 
