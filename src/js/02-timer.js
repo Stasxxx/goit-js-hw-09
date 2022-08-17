@@ -51,7 +51,7 @@ class Timer {
       const currentTiem = Date.now();
       const deltaTime = selectedDate - currentTiem;
       const time = this.convertMs(deltaTime);
-      console.log(deltaTime);
+      
       this.onTick(time);
 
       if (deltaTime <= 1000) {

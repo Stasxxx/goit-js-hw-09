@@ -16,12 +16,38 @@ img {
   display: block;
   max-width: 100%;
 }
+button {
+  background-color: aqua;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+  padding: 3px 15px;
+}
+
+.input {
+  margin-left: 630px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
 
 .timer {
   display: flex;
-  
+  justify-content: center;
 }
 
 .field {
   display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+.value {
+  text-align: center;
+}
+
+.form {
+  margin-left: 250px;
 }
