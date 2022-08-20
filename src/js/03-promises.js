@@ -8,7 +8,7 @@ formInput.addEventListener('submit', onFormSubmit);
 
 
 function onFormSubmit(evt) {
-  evt.preventDefault()
+  evt.preventDefault();
   const elements = evt.currentTarget.elements;
   const amount = elements.amount.value;
   const step = Number(elements.step.value);
@@ -21,7 +21,7 @@ function onFormSubmit(evt) {
   };
 
   for (let position = 1; position <= amount; position += 1) {
-    delay += step;
+    
 
     createPromise(position, delay)
       .then(({ position, delay }) => {
@@ -30,7 +30,8 @@ function onFormSubmit(evt) {
     .catch(({ position, delay }) => {
     Notify.failure(` Rejected promise ${position} in ${delay}ms`);
   })
-    .finally(evt.currentTarget.reset());
+      .finally(evt.currentTarget.reset());
+    delay += step;
   }
 }
 
